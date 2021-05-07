@@ -1,4 +1,4 @@
-# terraform_template
+# terraform_aws_template
 
 ## Terraform
 A template of terraform code that retrieves key info about existing infrastructure.  
