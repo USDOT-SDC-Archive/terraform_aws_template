@@ -3,28 +3,25 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "~> 3.39"
+      version = "~> 3.0"
     }
   }
   backend "s3" {
+    // Variables may not be used here.
+    // Also update in: variables.tf > variable.region.default
     region = "us-east-1"
-    // Don't forget to change this to {repo_name}/terraform/terraform.tfstate
+    // Also update in: variables.tf > variable.repository.default
     key = "terraform_aws_template/terraform/terraform.tfstate"
   }
 }
 
 provider "aws" {
   region = var.region
-  profile = "sdc"
-}
-
-variable "env" {
-  type = string
-  description = "Weyland-Yutani Corporation. Building Better Worlds. What would you like to terraform: dev, test, stage or prod?"
-}
-
-variable "region" {
-  type = string
-  description = "AWS region"
-  default = "us-east-1"
+  profile = var.provider-profile
+  default_tags {
+    tags = {
+      repository-url = var.repository-url
+      repository = var.repository
+    }
+  }
 }

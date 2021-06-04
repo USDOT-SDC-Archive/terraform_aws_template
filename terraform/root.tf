@@ -1,6 +1,10 @@
 // Use root.tf to pull info on existing resources and call modules
 data "aws_caller_identity" "current" {}
 
+data "aws_ssm_parameter" "environment" {
+  name = "environment"
+}
+
 data "aws_vpcs" "public" {
   // Get a list of vpcs with tag: Network = Public tag
   tags = {
@@ -26,6 +30,7 @@ data "aws_security_group" "default" {
 
 locals {
   // Setup some local vars for the info pulled above
+  environment = data.aws_ssm_parameter.environment
   account_id = data.aws_caller_identity.current.account_id
   network = {
     vpc_id = data.aws_vpc.public.id
