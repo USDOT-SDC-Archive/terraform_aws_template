@@ -24,14 +24,3 @@ Any changes made to the infrastructure-as-code resources must be built and deplo
    1. Run `terraform apply`
       1. Enter the environment `dev, test, stage or prod`
       1. Check the plan, enter `yes` if it is correct
-
-### Notes
-1. Terraform 0.13 upgrade  
-   If you get this error:  
-   ```
-   Error: Invalid legacy provider address
-   This configuration or its associated state refers to the unqualified provider "aws".
-   You must complete the Terraform 0.13 upgrade process before upgrading to later versions.
-   ```
-   Then run:  
-   `terraform state replace-provider registry.terraform.io/-/aws hashicorp/aws`
