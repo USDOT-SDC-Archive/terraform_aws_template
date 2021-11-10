@@ -1,0 +1,19 @@
+resource "aws_iam_role" "hello-world_lambda" {
+  name = "${var.repository}_${local.module}_hello-world"
+
+  assume_role_policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          Action : "sts:AssumeRole",
+          Principal : {
+            "Service" : "lambda.amazonaws.com"
+          },
+          Effect : "Allow",
+          Sid : ""
+        }
+      ]
+    }
+  )
+}

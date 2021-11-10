@@ -38,6 +38,7 @@ locals {
     subnet_ids = data.aws_subnet_ids.public.ids
     default_security_group_id = data.aws_security_group.default.id
   }
+  terraform_bucket = "${data.aws_ssm_parameter.environment.value}.sdc.dot.gov.platform.terraform"
 }
 
 // Call the modules, passing in some of the local vars
@@ -48,6 +49,8 @@ module "module_one" {
   cidr_block = local.network.cidr_block
   subnet_ids = local.network.subnet_ids
   default_security_group_id = local.network.default_security_group_id
+  terraform_bucket = local.terraform_bucket
+  repository = var.repository
 }
 
 module "module_two" {
@@ -57,4 +60,6 @@ module "module_two" {
   cidr_block = local.network.cidr_block
   subnet_ids = local.network.subnet_ids
   default_security_group_id = local.network.default_security_group_id
+  terraform_bucket = local.terraform_bucket
+  repository = var.repository
 }

@@ -11,7 +11,7 @@ Any changes made to the infrastructure-as-code resources must be built and deplo
       1. terraform.backend.s3.region and key
       1. terraform.backend.s3.key
    1. Update `terraform/variables.tf`
-   1. As needed create or update `terraform/_{env}.conf` with the following line    
+   1. As needed create or update `terraform/conf/{env}.conf` with the following line    
       `bucket = "{env}.{organization}.platform.terraform"`
 1. Use the AWS Console to verify the AWS Systems Manager Parameter Store is set up
    1. Name = `environment`
@@ -26,7 +26,7 @@ Any changes made to the infrastructure-as-code resources must be built and deplo
    1. Default encryption = `Enabled`
 1. Use Terraform to deploy the infrastructure-as-code
    1. Navigate to the root module directory `terraform`
-   1. Run `terraform init -backend-config=_{env}.conf`
+   1. Run `terraform init -backend-config=conf/{env}.conf`
    1. Run `terraform plan`
       1. Check the plan, continue if it is correct
    1. Run `terraform apply`

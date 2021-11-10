@@ -1,0 +1,18 @@
+hello-world_one:
+  path: "terraform/module_one/lambdas/hello-world"
+  handler: "lambda_function.lambda_handler"
+  scripts:
+    - "lambda_function.py"
+  site-packages:
+    # Do not list the following, they are included in the Lambda runtime
+    # boto3
+    # botocore
+    # docutils
+    # jmespath
+    # pip
+    # python-dateutil
+    # s3transfer
+    # setuptools
+    # six
+    # urllib3
+    - "datetime"

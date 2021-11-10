@@ -21,3 +21,7 @@ variable "repository" {
   // Also update in: configuration.tf > terraform.backend.key
   default = "terraform_aws_template"
 }
+
+locals {
+  module = basename(abspath(path.module))
+}
