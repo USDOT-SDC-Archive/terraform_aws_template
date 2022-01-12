@@ -102,8 +102,8 @@ def get_dirs():
 
 
 # must run Python 3.8.x
-if not (sys.version_info.major == 3 and sys.version_info.minor == 8):
-    raise EnvironmentError("Python must be version 3.8.x")
+if not (sys.version_info.major == 3 and sys.version_info.minor == 9):
+    raise EnvironmentError("Python must be version 3.9.x")
 
 # get the environment
 env = get_env()
@@ -142,28 +142,36 @@ print('Processing...')
 
 if rebuild:
     for l_name, l_values in lambdas.items():
+        lv_path = str(l_values['path'])
         print('================================================================================')
+        print('Press Enter for default Yes')
+        input_str_venv = input(f"Build or rebuild {l_name} venv: ").lower() or 'yes'
+        if input_str_venv != "yes":
+            print(f"Skipped: {l_name}")
+            print('================================================================================')
+            print('')
+            continue
         # create virtual environment
-        print(l_values['path'] + ': Creating virtual environment...')
-        subprocess.check_call([sys.executable, "-m", "venv", "--copies", "--clear", os.path.join(l_values['path'], "venv")])
-        print(l_values['path'] + ': Creating virtual environment...Done')
-        path_to_executable = os.path.join(os.getcwd(), l_values['path'], "venv", dirs['bin'], "python")
-        path_to_requirements = os.path.join(os.getcwd(), l_values['path'], "requirements.txt")
+        print(lv_path + ': Creating virtual environment...')
+        subprocess.check_call([sys.executable, "-m", "venv", "--copies", "--clear", os.path.join(lv_path, "venv")])
+        print(lv_path + ': Creating virtual environment...Done')
+        path_to_executable = os.path.join(os.getcwd(), lv_path, "venv", dirs['bin'], "python")
+        path_to_requirements = os.path.join(os.getcwd(), lv_path, "requirements.txt")
         # upgrade pip
         print('--------------------------------------------------------------------------------')
-        print(l_values['path'] + ': Upgrading pip...')
+        print(lv_path + ': Upgrading pip...')
         subprocess.check_call([path_to_executable, "-m", "pip", "install", "--upgrade", "pip"])
-        print(l_values['path'] + ': Upgrading pip...Done')
+        print(lv_path + ': Upgrading pip...Done')
         # upgrade setuptools
         print('--------------------------------------------------------------------------------')
-        print(l_values['path'] + ': Upgrading setuptools...')
+        print(lv_path + ': Upgrading setuptools...')
         subprocess.check_call([path_to_executable, "-m", "pip", "install", "--upgrade", "setuptools"])
-        print(l_values['path'] + ': Upgrading setuptools...Done')
+        print(lv_path + ': Upgrading setuptools...Done')
         # install requirements.txt
         print('--------------------------------------------------------------------------------')
-        print(l_values['path'] + ': Installing requirements...')
+        print(lv_path + ': Installing requirements...')
         subprocess.check_call([path_to_executable, "-m", "pip", "install", "-r", path_to_requirements, "--upgrade"])
-        print(l_values['path'] + ': Installing requirements...Done')
+        print(lv_path + ': Installing requirements...Done')
         print('================================================================================')
         print('')
 else:
@@ -178,6 +186,13 @@ else:
 for l_name, l_values in lambdas.items():
     print('================================================================================')
     print(l_values['path'])
+    print('Press Enter for default Yes')
+    input_str_zip = input(f"Build new zip file for {l_name}: ").lower() or 'yes'
+    if input_str_zip != "yes":
+        print(f"Skipped: {l_name}")
+        print('================================================================================')
+        print('')
+        continue
     print('--------------------------------------------------------------------------------')
     print('Creating zip file...')
     path_to_site_packages = os.path.join(l_values['path'], "venv", dirs['lib'], "site-packages")
