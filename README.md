@@ -1,3 +1,6 @@
+## Archived
+This repo has been archived.
+
 # terraform_aws_template
 
 ## Terraform
